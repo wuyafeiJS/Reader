@@ -131,6 +131,7 @@ class Home extends PureComponent {
   
   render() {
     const { bookList } = this.props.app
+    console.log(bookList)
     // const bookList = [{
     //   _id: 1111,
     //   novel: {

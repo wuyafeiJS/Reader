@@ -23,6 +23,24 @@ export function getAuth() {
     return { data: res };
   });
 }
+
+export function register(loginData) {
+  return axios.post("/users/register", loginData).then(res => ({ data: res }), err => (console.log(err)));
+}
+
+export function login(loginData) {
+  return axios.post("/auth", loginData).then(res => {
+    console.log(res,99)
+    if (res.data.code === 0) {
+      setAuthorizationToken(res.data.token);
+      console.log(res.data)
+      AsyncStorage.multiSet([['username', res.data.username], ['userToken', res.data.token]])
+    }
+    return { data: res };
+  }, err => {
+    alert('登录失败，账号或密码错误')
+  });
+}
 export function getBookshelfTourist(token) {
   setAuthorizationToken(token);
   return axios
@@ -58,5 +76,15 @@ export function orderNovel(id) {
 export function getFirstRenderChapters(id, num) {
   return axios
     .get(`/chapters/firstRender?id=${id}&num=${num}`)
+    .then(res => ({ data: res }), err => console.error(err));
+}
+
+export function getChapters(id, num) {
+  let json = {
+    id,
+    num
+  }
+  return axios
+    .post(`/chapters`, json)
     .then(res => ({ data: res }), err => console.error(err));
 }

@@ -18,7 +18,7 @@ const app = dva({
 })
 // 设置后台地址
 axios.defaults.baseURL = 'http://localhost:5000'
-
+// debug
 const App = app.start(<Router />)
 persistStore(app.getStore(), {
   storage: AsyncStorage,

@@ -10,6 +10,7 @@ import {
 import { connect } from 'react-redux'
 
 import Login from './containers/Login'
+import Register from './containers/Register'
 import Home from './containers/Home'
 import Account from './containers/Account'
 import Detail from './containers/Detail'
@@ -46,6 +47,7 @@ const AppNavigator = StackNavigator(
   {
     Main: { screen: MainNavigator },
     Login: { screen: Login },
+    Register: { screen: Register },
   },
   {
     headerMode: 'none',

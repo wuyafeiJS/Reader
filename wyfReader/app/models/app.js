@@ -6,15 +6,13 @@ import * as services from '../services/app'
 export default {
   namespace: 'app',
   state: {
-    fetching: false,
-    login: false,
   },
   reducers: {
-    loginStart(state, { payload }) {
-      return { ...state, ...payload, fetching: true }
+    loginStart(state, { payload: { loginData } }) {
+      return { ...state, loginData }
     },
-    loginEnd(state, { payload }) {
-      return { ...state, ...payload, fetching: false }
+    receiveRegister(state, { payload: { registerData } }) {
+      return { ...state, registerData }
     },
     receiveBookList(state, { payload: { bookList } }){
       return { ...state, bookList }
@@ -34,10 +32,34 @@ export default {
     
   },
   effects: {
-    *login({ payload }, { call, put }) {
-      yield put(createAction('loginStart')())
-      const login = yield call(authService.login, payload)
-      if (login) {
+    *register({ payload: { registerData } }, { call, put }) {
+      // yield put(createAction('loginStart')())
+      const { data } = yield call(services.register, registerData)
+      yield put({
+        type: "receiveRegister",
+        payload: {
+          registerData: data.data
+        }
+      })
+      if (data.data.code === 0) {
+        yield put(
+          NavigationActions.reset({
+            index: 0,
+            actions: [NavigationActions.navigate({ routeName: 'Login' })],
+          })
+        )
+      }
+    },
+    *login({ payload: { loginData } }, { call, put }) {
+      const { data } = yield call(services.login, loginData)
+      yield put({
+        type: "loginStart",
+        payload: {
+          loginData: data.data
+        }
+      })
+      
+      if (data.data.code === 0) {
         yield put(
           NavigationActions.reset({
             index: 0,
@@ -45,7 +67,6 @@ export default {
           })
         )
       }
-      yield put(createAction('loginEnd')({ login }))
     },
     *getBookList({}, { call, put, select }) {
       const token = yield select(state => state.app.token)

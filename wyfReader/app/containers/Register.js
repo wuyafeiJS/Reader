@@ -16,8 +16,8 @@ import { createAction, NavigationActions } from "../utils";
 import Util from "../utils/utils";
 import Request from "../libs/request";
 
-@connect((state) => ({loginData: state.app.loginData}))
-class Login extends Component {
+@connect((state) => ({registerData: state.app.registerData}))
+class Register extends Component {
   static navigationOptions = {
     title: "Login"
   };
@@ -83,33 +83,34 @@ class Login extends Component {
         if (err.code) {
           msg = "请输入验证码！"
         }
-        if (err.username || err.password) {
+        if (err.username || err.password || err.confirm) {
           msg = "请输入账号和密码！"
         }
         alert(msg)
         this.getCaptcha()
       } else {
-        const { username, password, code } = value;
-        this.headStyle = [styles.header];
+        const { username, password, confirm, code } = value;
+        if (password !== confirm) {
+          alert('两次输入密码不一致，请重新输入')
+          return;
+        }
+        console.log(this.props)
         this.props.dispatch({
-          type: 'app/login',
+          type: 'app/register',
           payload: {
-            loginData: {
+            registerData: {
               password,
               username,
               code
             }
           }
         }).then(() => {
-          const loginData = this.props.loginData;
-          console.log(loginData,88)
-          if (loginData.code === -1) {
-            alert(loginData.msg)
+          const registerData = this.props.registerData;
+          console.log(registerData,88)
+          if (registerData.code === -1) {
+            alert(registerData.msg)
+            this.getCaptcha()
           }
-          if (loginData.code === 11) {
-            alert(loginData.msg)
-          }
-
         })
       }
 
@@ -125,9 +126,6 @@ class Login extends Component {
         {!fetching && <Button title="Close" onPress={this.onClose} />} */}
         <List.Item
           style={{ paddingLeft: 0 }}
-          renderHeader={() => (
-            <Text style={this.headStyle}>{this.state.msg}</Text>
-          )}
         >
           <InputItem
             {...getFieldProps("username", {
@@ -149,6 +147,18 @@ class Login extends Component {
             placeholder="密码"
           >
             密码
+          </InputItem>
+
+          <InputItem
+            {...getFieldProps("confirm", {
+              rules: [{ required: true }]
+            })}
+            clear
+            name="password"
+            type="password"
+            placeholder="确认密码"
+          >
+            确认密码
           </InputItem>
 
           <View style={{ marginLeft: 0, flexDirection: "row" }}>
@@ -177,7 +187,7 @@ class Login extends Component {
             </View>
           </View>
           <List.Item>
-            <Button title="登录" onPress={this.handleClick} />
+            <Button title="注册" onPress={this.handleClick} />
           </List.Item>
         </List.Item>
         <View style={{flexDirection: 'row'}}>
@@ -185,11 +195,6 @@ class Login extends Component {
               this.onClose()
             }}>
             <Text style={[styles.register, {textAlign: 'left', paddingLeft: 10}]}>返回</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={{flex: 0.5}} onPress={() => {
-              this.props.dispatch(NavigationActions.navigate({routeName: 'Register'}))
-            }}>
-            <Text style={styles.register}>没有账号？注册</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -231,4 +236,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default createForm()(Login);
+export default createForm()(Register);
