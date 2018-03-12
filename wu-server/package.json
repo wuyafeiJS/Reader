@@ -1,10 +1,11 @@
 {
-  "name": "YCool_server",
+  "name": "wu_server",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "start": "nodemon index.js",
+    "serve:prod": "node NODE_ENV=production index.js",
     "dev": "./node_modules/.bin/nodemon index.js",
     "test": "NODE_ENV=test ./node_modules/.bin/mocha --compilers js:babel-register --require babel-polyfill",
     "lint": "eslint src/**/*.js",
@@ -38,8 +39,10 @@
     "babel-preset-stage-0": "^6.5.0",
     "bcrypt": "^1.0.2",
     "cheerio": "^0.22.0",
+    "easy-monitor": "^2.2.1",
     "glob": "^7.0.0",
     "iconv-lite": "^0.4.15",
+    "joi": "^13.1.1",
     "jsonwebtoken": "^7.1.9",
     "koa": "^2.0.0-alpha.6",
     "koa-bodyparser": "^3.0.0",
@@ -60,7 +63,8 @@
     "pinyin": "^2.8.0",
     "redis": "^2.7.1",
     "request": "^2.79.0",
-    "simple-pinyin": "^3.0.2"
+    "simple-pinyin": "^3.0.2",
+    "svg-captcha": "^1.3.11"
   },
   "devDependencies": {
     "babel-eslint": "^6.0.2",

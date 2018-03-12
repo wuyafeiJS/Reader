@@ -42,34 +42,35 @@ import * as Crawler from '../../utils/crawler'
       }
  */
 export async function getChapterInfo (ctx) {
-  let {novelId, num} = ctx.request.body
-  let detail,novel
+  let {id, num} = ctx.request.body
+  let detail, chapter
+  const user = ctx.state.user
   try {
-    detail = await Chapter.findByNumber(novelId, num)
-    novel = await Novel.findOne({_id: detail.novel})
+    chapter = await Chapter.findOne({novel: id})
+    detail = chapter.chapters[num]
   } catch (e) {
     Handle.sendEmail(e.message)
     ctx.throw(422, e.message)
   }
 
-  //如果没有内容，会去网站爬取
+  // 如果没有内容，会去网站爬取
   if (detail.content) {
     ctx.body = {
       success: true
     }
-  }
-  else {
-    const url = `${novel.url}${detail.postfix}`
+  } else {
+    const url = `${detail.postfix}`
     try {
       const content = await Crawler.getChapterContent(url)
-      detail.content = content
-      await detail.save()
+      chapter.chapters[num].content = content
+      await Chapter.update({novel: id}, { chapters: chapter.chapters })
     } catch (e) {
       Handle.sendEmail(e.message)
       ctx.throw(422, e.message)
     }
   }
   const response = detail
+  await Bookshelf.update({ user: user._id, novel: id }, { number: num })
   ctx.body = {
     response
   }
@@ -164,8 +165,7 @@ export async function getFirstRenderChapter (ctx) {
 
   if (nextChapter) {
     chapters = [currentChapter, nextChapter]
-  }
-  else {
+  }  else {
     chapters = [currentChapter]
   }
   const response = {
@@ -236,8 +236,7 @@ export async function getNextChapterInfo (ctx) {
     ctx.body = {
         success: true
     }
-  }
-  else {
+  }  else {
     const url = `${currentDetail.novel.url}${nextDetail.postfix}`
     try {
       const content = await Crawler.getChapterContent(url)
@@ -312,8 +311,7 @@ export async function getLastChapterInfo (ctx) {
     ctx.body = {
         success: true
     }
-  }
-  else {
+  }  else {
     const url = `${currentDetail.novel.url}${lastDetail.postfix}`
     try {
       const content = await Crawler.getChapterContent(url)

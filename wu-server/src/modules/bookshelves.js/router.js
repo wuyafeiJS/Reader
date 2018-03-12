@@ -22,7 +22,7 @@ export default [
   },
   {
     method: 'POST',
-    route: '/delect',
+    route: '/delete',
     handlers: [
       bookshelf.delectNovel
     ]

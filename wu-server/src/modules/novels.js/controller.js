@@ -378,23 +378,22 @@ export async function getNovel (ctx) {
 export async function getDirectory (ctx) {
   let results
   const id = ctx.params.id
-  const options = {
-    where: {novel: id},
-    attributes: ['title', 'number'],
-    order: ctx.query.order || 1
-  }
+  const order = ctx.query.order
+  let chapters;
   try {
-    results = await Chapter.getDirectory(options)
+    results = await Chapter.findOne({novel: id})
+    chapters = results.chapters
   } catch (e) {
     Handle.sendEmail(e.message)
     ctx.throw(422, e.message)
   }
-
+  if (order === '-1') {
+    chapters = chapters.reverse()
+  }
   ctx.body = {
-    results
+    chapters
   }
 }
-
 
 // export async function createNovel (ctx) {
 //   const novel = new Novel(ctx.request.body.novel)

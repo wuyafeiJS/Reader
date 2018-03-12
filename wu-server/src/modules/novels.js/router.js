@@ -46,5 +46,5 @@ export default [
     handlers: [
       novel.getDirectory
     ]
-  },
+  }
 ]

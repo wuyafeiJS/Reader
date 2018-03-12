@@ -12,6 +12,21 @@ import config from '../config'
 import handle from '../src/utils/handle'
 import { errorMiddleware } from '../src/middleware'
 
+// const easyMonitor = require('easy-monitor')
+// easyMonitor({
+//   cluster: true,
+//   bootstrap: 'embrace',
+//   project_name: 'wu-server',
+//   /**
+//      @param {string} tcp_host 填写你部署的 dashboard 进程所在的服务器 ip
+//      @param {number} tcp_port 填写你部署的 dashboard 进程所在的服务器 端口
+//      **/
+//   embrace: {
+//     tcp_host: '127.0.0.1',
+//     tcp_port: 26666
+//   }
+// })
+
 global.Handle = handle
 
 const app = new Koa()

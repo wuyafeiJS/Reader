@@ -8,6 +8,7 @@ export default [
     method: 'POST',
     route: '/',
     handlers: [
+      ensureUser,
       chapter.getChapterInfo
     ]
   },

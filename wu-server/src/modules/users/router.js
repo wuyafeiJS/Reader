@@ -13,9 +13,16 @@ export default [
   },
   {
     method: 'POST',
-    route: '/loginIn',
+    route: '/register',
     handlers: [
-      user.loginIn
+      user.register
+    ]
+  },
+  {
+    method: 'GET',
+    route: '/captcha',
+    handlers: [
+      user.getCaptcha
     ]
   }
 ]
