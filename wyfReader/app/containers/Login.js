@@ -105,9 +105,11 @@ class Login extends Component {
           console.log(loginData,88)
           if (loginData.code === -1) {
             alert(loginData.msg)
+            this.getCaptcha()
           }
           if (loginData.code === 11) {
             alert(loginData.msg)
+            this.getCaptcha()
           }
 
         })

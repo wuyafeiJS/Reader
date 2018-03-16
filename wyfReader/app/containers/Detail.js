@@ -56,6 +56,7 @@ class Detail extends Component {
         payload: { id }
       })
     }
+    
     this.props.dispatch(NavigationActions.navigate({ routeName: "Home" }));
   }
 
@@ -74,6 +75,7 @@ class Detail extends Component {
         </View>
       );
     }
+    console.log(novelInfo,555555)
     return (
       <View style={styles.detailSection}>
         <View style={styles.novelInfo}>
@@ -103,7 +105,9 @@ class Detail extends Component {
               {novelInfo.join ? "已加入书架" : "加入书架"}
             </Text>
           </TouchableHighlight>
-          <TouchableHighlight style={styles.startBtn} onPress={() => {}}>
+          <TouchableHighlight style={styles.startBtn}
+            onPress={ () => this.props.dispatch(NavigationActions.navigate({ routeName: 'Reader', params: {id: novelInfo._id, name: novelInfo.name, num: 0} })) }
+          >
             <Text style={styles.startRead}>开始阅读</Text>
           </TouchableHighlight>
         </View>

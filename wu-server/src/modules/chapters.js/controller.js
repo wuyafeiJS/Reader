@@ -45,6 +45,7 @@ export async function getChapterInfo (ctx) {
   let {id, num} = ctx.request.body
   let detail, chapter
   const user = ctx.state.user
+
   try {
     chapter = await Chapter.findOne({novel: id})
     detail = chapter.chapters[num]
@@ -128,6 +129,7 @@ export async function getFirstRenderChapter (ctx) {
   const id = ctx.query.id
   const num = ctx.query.num * 1
   const user = ctx.state.user
+  await Bookshelf.update({user: user._id}, { number: num })
   try {
     bookshelf = await Bookshelf.findOne({user: user._id, novel: id}).populate('novel')
     chapter = await Chapter.findById(bookshelf.chapter)
@@ -136,7 +138,7 @@ export async function getFirstRenderChapter (ctx) {
       nextChapter = chapter.chapters[num + 1]
       if (!nextChapter.content) {
         const url = `${nextChapter.postfix}`
-       
+
         const content = await Crawler.getChapterContent(url)
         nextChapter.content = content
         chapter.chapters[num + 1].content = content

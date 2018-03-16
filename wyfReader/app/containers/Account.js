@@ -31,12 +31,20 @@ class Account extends Component {
   gotoLogin = () => {
     this.props.dispatch(NavigationActions.navigate({ routeName: 'Login' }))
   }
-
+  loginout = () => {
+    AsyncStorage.removeItem('username');
+    AsyncStorage.removeItem('userToken');
+    this.props.dispatch({type: 'app/receiveToken', payload:{token: ''}})
+    this.props.dispatch({type: 'app/getBookList', payload:{}})
+    this.setState({
+      username: null
+    })
+  }
   render() {
     console.log(this.state.username,888)
     return (
       <View style={styles.container}>
-        {this.state.username ? <Text>欢迎你，{this.state.username}</Text> :<Button title="Goto Login" onPress={this.gotoLogin} />}
+        {this.state.username ? <View><Text>欢迎你，{this.state.username}</Text><Button title="退出" onPress={this.loginout} /></View> :<Button title="Goto Login" onPress={this.gotoLogin} />}
       </View>
     )
   }

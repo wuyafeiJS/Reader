@@ -111,7 +111,8 @@ export async function getCaptcha (ctx) {
   const svgCaptcha = require('svg-captcha')
   const captcha = svgCaptcha.create({
     width: 80,
-    height: 40
+    height: 40,
+    ignoreChars: '0o1i'
   })
   if (captcha.data) {
     ctx.session.captcha = captcha.text

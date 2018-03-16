@@ -10,8 +10,6 @@ WORKDIR /opt/reader-server
 #   NODEJS_ORG_MIRROR=http://10.2.144.44:8081/repository/node npm i --production --verbose
 RUN npm i
 
-EXPOSE 12333
-EXPOSE 26666
 EXPOSE 5000
 
 CMD NODE_ENV=production node index.js

@@ -16,6 +16,7 @@ import Account from './containers/Account'
 import Detail from './containers/Detail'
 import Search from './containers/Search'
 import Reader from './containers/Reader'
+import Directory from './containers/Directory'
 
 const HomeNavigator = TabNavigator(
   {
@@ -36,7 +37,8 @@ const MainNavigator = StackNavigator(
     HomeNavigator: { screen: HomeNavigator },
     Detail: { screen: Detail },
     Search: { screen: Search },
-    Reader: { screen: Reader }
+    Reader: { screen: Reader },
+    Directory: { screen: Directory },
   },
   {
     headerMode: 'none',

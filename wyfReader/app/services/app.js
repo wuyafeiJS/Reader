@@ -73,6 +73,11 @@ export function orderNovel(id) {
           .then(res => { console.log(res) })
 }
 
+export function deleteNovel(id) {
+  return axios.post('/bookshelfs/delete', {id: id})
+          .then(res => { console.log(res) })
+}
+
 export function getFirstRenderChapters(id, num) {
   return axios
     .get(`/chapters/firstRender?id=${id}&num=${num}`)
@@ -87,4 +92,10 @@ export function getChapters(id, num) {
   return axios
     .post(`/chapters`, json)
     .then(res => ({ data: res }), err => console.error(err));
+}
+
+export function getDirectory(id, order) {
+  return axios
+  .get(`/novels/directory/${id}?order=${order}`)
+  .then(res => ({ data: res }), err => console.error(err));
 }

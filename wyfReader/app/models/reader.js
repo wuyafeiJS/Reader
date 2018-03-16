@@ -17,6 +17,9 @@ export default {
     receiveChapters(state, { payload: { chapter } }) {
       return { ...state, chapter }
     },
+    receiveDirectory(state, { payload: { directory } }) {
+      return { ...state, directory }
+    },
   },
   effects: {
     *getFirstRenderChapters({ payload: { id, num } }, { call, put }) {
@@ -34,6 +37,15 @@ export default {
         type: 'receiveChapters',
         payload: {
           chapter: data.data.response
+        }
+      })
+    },
+    *getDirectory({ payload: { id, order } }, { call, put }) {
+      const { data } = yield call(services.getDirectory, id, order)
+      yield put({
+        type: 'receiveDirectory',
+        payload: {
+          directory: data.data.chapters
         }
       })
     }

@@ -4,5 +4,8 @@
   "env": {
     "node": true,
     "mocha": true
+  },
+  "rules": {
+    "eqeqeq": 0
   }
 }

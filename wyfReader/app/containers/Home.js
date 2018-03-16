@@ -41,7 +41,6 @@ class Home extends PureComponent {
     this.renderRow = this.renderRow.bind(this)
   }
   componentWillMount() {
-
     this.props.dispatch(createAction('app/getBookList')())
   }
   closeSwipeout = () => {
@@ -49,6 +48,14 @@ class Home extends PureComponent {
   }
   gotoDetail = () => {
     this.props.dispatch(NavigationActions.navigate({ routeName: 'Search' }))
+  }
+  delectNovel = (id) => {
+    this.props.dispatch({
+      type: 'app/deleteNovel',
+      payload: {
+        id
+      }
+    })
   }
   _onRefresh= () => {
     this.setState({isRefreshing: true})
@@ -131,7 +138,6 @@ class Home extends PureComponent {
   
   render() {
     const { bookList } = this.props.app
-    console.log(bookList)
     // const bookList = [{
     //   _id: 1111,
     //   novel: {

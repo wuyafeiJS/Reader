@@ -15,7 +15,7 @@ ssh $SERVER_HOST "\
   echo "清理过时的镜像"; \
   docker images | awk '/^hub.c.163.com\/wuyafeijs\/reader-server[ ]+/ { print \$3 }' | xargs docker rmi ; \
   docker build -t $IMAGE_NAME .;\
-  docker run --name reader-server -p 12333:12333 -p 26666:26666 -p 8080:5000 -d --restart=always $IMAGE_NAME; \
+  docker run --name reader-server -p 8080:5000 -d --restart=always $IMAGE_NAME; \
   exit; \
   "
 echo "\033[40;32m\n"

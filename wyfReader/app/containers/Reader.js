@@ -172,6 +172,11 @@ class Reader extends Component {
       this.out();
     }
   }
+  goDerictory() {
+    this.iknow();
+    const { id, name } = this.props.navigation.state.params
+    this.props.dispatch(NavigationActions.navigate({ routeName: "Directory", params: { id, name } }))
+  }
   showReaderOptions() {
     return (
       <View style={styles.alertContainer}>
@@ -190,7 +195,7 @@ class Reader extends Component {
           <TouchableOpacity
             style={styles.alertTop}
             onPress={() => {
-              this.props.dispatch(NavigationActions.back());
+              this.props.dispatch(NavigationActions.navigate({ routeName: "Home" }));
             }}
           >
             <Image
@@ -370,7 +375,7 @@ class Reader extends Component {
         </View>
         <View style={styles.foot}>
           <Text style={[styles.footLeft, styles.chapterName]}>
-            本章进度{this.state.chapterProgress}%
+            {/* 本章进度{this.state.chapterProgress}% */}好好学习，天天向上
           </Text>
           <Text style={[styles.footRight, styles.chapterName]}>
             {rowData.num}/{this.totals}

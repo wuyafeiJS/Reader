@@ -1,4 +1,5 @@
 import { Toast } from 'antd-mobile'
+import { AsyncStorage } from 'react-native'
 import { createAction, NavigationActions } from '../utils'
 import * as authService from '../services/auth'
 import * as services from '../services/app'
@@ -58,8 +59,19 @@ export default {
           loginData: data.data
         }
       })
+      yield put({
+        type: "receiveToken",
+        payload: {
+          token: data.data.token
+        }
+      })
       
       if (data.data.code === 0) {
+        // 更新书架
+        yield put({
+          type: "getBookList",
+          payload: {}
+        })
         yield put(
           NavigationActions.reset({
             index: 0,
@@ -69,8 +81,8 @@ export default {
       }
     },
     *getBookList({}, { call, put, select }) {
-      const token = yield select(state => state.app.token)
-      
+      // 从本地缓存中拿到token
+      const token = yield AsyncStorage.getItem(`userToken`)
       if (!token) {
         yield put({
           type: 'getAuth',
@@ -115,8 +127,20 @@ export default {
       })
     },
     // 加入书架
-    *orderNovel ({ payload: { id } }, { call }) {
+    *orderNovel ({ payload: { id } }, { call, put }) {
       yield call(services.orderNovel, id)
+      // 更新书架
+      yield put({
+        type: 'getBookList',
+        payload: {}
+      })
+    },
+    *deleteNovel({ payload: {id} },{ call, put }) {
+      console.log(id, 2222)
+      yield call(services.deleteNovel, id)
+      yield put({
+        type: 'getBookList'
+      })
     },
     *searchBookWords({ payload: { text } }, { call, put }) {
       const { data } = yield call(services.searchBookWords, text)

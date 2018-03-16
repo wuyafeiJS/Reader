@@ -24,7 +24,12 @@ export async function authUser (ctx, next) {
   }
   return passport.authenticate('local', (user) => {
     if (!user) {
-      ctx.throw(401)
+      // ctx.throw(401)
+      ctx.body = {
+        code: 11,
+        msg: '账号或密码错误'
+      }
+      return
     }
 
     const token = user.generateToken()
