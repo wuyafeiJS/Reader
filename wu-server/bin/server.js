@@ -12,6 +12,7 @@ import config from '../config'
 import handle from '../src/utils/handle'
 import { errorMiddleware } from '../src/middleware'
 
+// 性能监控
 // const easyMonitor = require('easy-monitor')
 // easyMonitor({
 //   cluster: true,

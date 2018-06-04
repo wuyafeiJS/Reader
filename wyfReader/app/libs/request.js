@@ -1,5 +1,5 @@
 let request = {};
-const prefix = 'http://localhost:5000'
+const prefix = 'http://120.79.161.225/server'
 request.get = (url) => {
   let options = {
     method: 'GET',

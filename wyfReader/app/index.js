@@ -17,8 +17,8 @@ const app = dva({
   },
 })
 // 设置后台地址
-axios.defaults.baseURL = 'http://localhost:5000'
-// debug
+// axios.defaults.baseURL = 'http://localhost:5000'
+axios.defaults.baseURL = 'http://120.79.161.225/server'
 const App = app.start(<Router />)
 persistStore(app.getStore(), {
   storage: AsyncStorage,

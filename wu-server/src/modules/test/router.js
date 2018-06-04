@@ -16,5 +16,5 @@ export default [
     handlers: [
       test.getImgs
     ]
-  },
+  }
 ]

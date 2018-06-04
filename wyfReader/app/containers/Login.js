@@ -30,7 +30,9 @@ class Login extends Component {
     this.headStyle = [styles.header];
   }
   componentWillMount() {
+    
     Request.get("/users/captcha").then(res => {
+      
       if (res.code === 0) {
         let arr = res.response.replace(/></g, ">|<").split("|");
         let paths = arr.slice(1, arr.length - 1);
